@@ -216,6 +216,7 @@ header.site{position:sticky;top:0;z-index:40;background:var(--panel);background:
   .trustrow .dot{display:none}
 }
 .trustrow span{font-size:.78rem;color:#D4CAB0;display:flex;align-items:center;gap:7px;font-weight:600;letter-spacing:.02em}
+@media(min-width:900px){.pill-break{display:none}}
 .trustrow .dot{width:5px;height:5px;background:var(--accent);border-radius:50%;flex:none}
 
 /* ---------------- answer block ---------------- */
@@ -278,23 +279,19 @@ section.block{padding:56px 0}
 .svc-card.stub .ph span{font-family:"IBM Plex Mono";font-size:.66rem;letter-spacing:.1em;color:var(--ink-3);text-transform:uppercase;background:var(--panel);padding:5px 9px;border:1px solid var(--line)}
 
 /* ---------------- proof ---------------- */
+/* base / tablet-gap (760-859px) fallback layout: narrow photo column + panel */
 .proof-wrap{display:grid;gap:0;grid-template-columns:104px 1fr;border:1px solid var(--line)}
 @media(min-width:480px){.proof-wrap{grid-template-columns:150px 1fr}}
 @media(min-width:640px){.proof-wrap{grid-template-columns:230px 1fr}}
-@media(min-width:860px){
-  .proof-wrap{position:relative;display:block;border:0;overflow:hidden;min-height:480px}
-  .proof-img{position:absolute;inset:0;height:100%}
-  .proof-img::after{content:"";position:absolute;inset:0;background:rgba(21,18,12,.62)}
-  .proof-list{position:relative;z-index:1;background:transparent;display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:56px;height:100%;align-content:center}
-  .proof-item{background:rgba(21,18,12,.6);border:1px solid rgba(241,234,218,.16);border-radius:8px;padding:28px 26px}
-  .proof-item:nth-child(3){grid-column:1/-1;max-width:540px;width:100%;margin:0 auto}
-  .proof-item .mk{color:var(--accent)}
-  .proof-item h4{color:#F8F4E8}
-  .proof-item p{color:#E3DBC6}
-}
 .proof-img{overflow:hidden;height:100%}
 .proof-img img{width:100%;height:100%;object-fit:cover}
 .proof-list{padding:26px 22px;display:flex;flex-direction:column;gap:22px;background:var(--panel)}
+.proof-item{display:flex;gap:14px}
+.proof-item .mk{font-family:"Big Shoulders Display";font-weight:800;font-size:1.5rem;color:var(--accent-ink);flex:none;width:34px}
+.proof-item h4{font-family:"Public Sans";text-transform:none;font-size:1.02rem;font-weight:700;color:var(--ink)}
+.proof-item p{font-size:.9rem;color:var(--ink-2);margin-top:3px}
+
+/* mobile ≤759px: full-bleed photo background behind the whole section */
 @media(max-width:759px){
   .proof-section{position:relative;overflow:hidden}
   .proof-section .block-hd{position:relative;z-index:1}
@@ -308,10 +305,19 @@ section.block{padding:56px 0}
   .proof-item h4{color:#F8F4E8}
   .proof-item p{color:#E3DBC6}
 }
-.proof-item{display:flex;gap:14px}
-.proof-item .mk{font-family:"Big Shoulders Display";font-weight:800;font-size:1.5rem;color:var(--accent-ink);flex:none;width:34px}
-.proof-item h4{font-family:"Public Sans";text-transform:none;font-size:1.02rem;font-weight:700;color:var(--ink)}
-.proof-item p{font-size:.9rem;color:var(--ink-2);margin-top:3px}
+
+/* desktop ≥860px: full-width photo background, boxes with border + glow, no fill */
+@media(min-width:860px){
+  .proof-wrap{position:relative;display:block;border:0;overflow:hidden;min-height:480px}
+  .proof-img{position:absolute;inset:0;height:100%}
+  .proof-img::after{content:"";position:absolute;inset:0;background:rgba(21,18,12,.82)}
+  .proof-list{position:relative;z-index:1;background:transparent;display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:56px;height:100%;align-content:center}
+  .proof-item{background:transparent;border:1.5px solid var(--accent);border-radius:8px;padding:28px 26px;box-shadow:0 0 0 1px rgba(241,89,39,.18),0 0 20px 2px rgba(241,89,39,.3)}
+  .proof-item:nth-child(3){grid-column:1/-1;max-width:540px;width:100%;margin:0 auto}
+  .proof-item .mk{background:var(--accent);color:#FFFFFF;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.05rem}
+  .proof-item h4{color:#FFFFFF}
+  .proof-item p{color:#FFFFFF}
+}
 
 /* ---------------- before/after placeholder ---------------- */
 .ba-shell{border:1px dashed var(--grit-2);background:var(--line-2);padding:36px 24px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
