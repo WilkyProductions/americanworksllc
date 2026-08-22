@@ -316,7 +316,11 @@ details p{padding:0 4px 18px;font-size:.93rem;color:var(--ink-2);max-width:66ch}
 .contact{padding:56px 0;background:var(--panel);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
 .contact-wrap{max-width:1180px;margin:0 auto;padding:0 20px;display:grid;gap:0;grid-template-columns:1fr;border:1px solid var(--line)}
 @media(min-width:860px){.contact-wrap{grid-template-columns:1fr 1.2fr;padding:0}}
-.contact-map{position:relative;min-height:280px;background:#F1EADA;overflow:hidden}
+.contact-map{position:relative;display:block;min-height:280px;background:#F1EADA;overflow:hidden;cursor:pointer}
+.contact-map svg{transition:transform .3s ease}
+.contact-map:hover svg{transform:scale(1.03)}
+.contact-map-badge{position:absolute;left:16px;bottom:16px;z-index:1;display:inline-flex;align-items:center;gap:6px;background:#1D1912;color:#F1EADA;font-family:"IBM Plex Mono",monospace;font-size:.7rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;padding:8px 14px;border-radius:999px;box-shadow:0 4px 12px rgba(21,18,12,.25);transition:background-color .15s ease}
+.contact-map:hover .contact-map-badge{background:#F15927}
 @media(min-width:860px){.contact-map{min-height:100%}}
 .contact-map::before{content:"";position:absolute;inset:0;opacity:.6;background-image:
   repeating-linear-gradient(115deg,#DCD3BC 0 2px,transparent 2px 34px),
@@ -666,7 +670,7 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
 
 <section class="contact" id="estimate">
   <div class="contact-wrap">
-    <div class="contact-map">
+    <a class="contact-map" id="contact-map-link" href="https://maps.app.goo.gl/fYKKXVDmrbf2aVRt6" target="_blank" rel="noopener" aria-label="Open American Works, LLC in Maps">
       <svg viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
         <circle cx="240" cy="240" r="175" fill="#F15927" fill-opacity="0.08" stroke="#F15927" stroke-width="3" stroke-dasharray="9 8"/>
         <g transform="translate(240,240)">
@@ -681,7 +685,8 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
           <circle cx="112" cy="176" r="5" fill="#1D1912"/><text x="124" y="180" fill="#4E4636">WITTMANN AREA</text>
         </g>
       </svg>
-    </div>
+      <span class="contact-map-badge">Open in Maps &nearr;</span>
+    </a>
     <div class="contact-form-side">
       <span class="lbl">Get Started</span>
       <h2>Schedule Your Service with Ease</h2>
@@ -847,6 +852,19 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
     success.setAttribute('tabindex', '-1');
     success.focus();
   });
+})();
+</script>
+
+<script>
+(function(){
+  var link = document.getElementById('contact-map-link');
+  if(!link) return;
+  var ua = navigator.userAgent;
+  var isIOS = /iPhone|iPad|iPod/.test(ua);
+  var isIPadDesktopMode = /Macintosh/.test(ua) && 'ontouchend' in document;
+  if(isIOS || isIPadDesktopMode){
+    link.href = 'https://maps.apple.com/?address=Wittmann,+AZ+85361&q=American+Works,+LLC';
+  }
 })();
 </script>
 
