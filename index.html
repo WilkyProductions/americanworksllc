@@ -148,15 +148,15 @@ header.site{position:sticky;top:0;z-index:40;background:var(--panel);background:
 .answer::before{top:0}
 .answer::after{bottom:0}
 .answer-in{position:relative;z-index:1;max-width:1180px;margin:0 auto;padding:28px 20px;display:grid;gap:16px;grid-template-columns:1fr}
-@media(min-width:760px){.answer-in{grid-template-columns:180px 1fr;align-items:start;padding:34px 20px}}
+@media(min-width:760px){.answer-in{padding:34px 20px}}
 .answer p{font-size:1.05rem;color:#D4CAB0;max-width:none}
 .answer p strong{color:#FF8A54;font-weight:700}
-.answer .lbl{color:#FF8A54}
 
 /* ---------------- scroll reveal: skid steer clears the ground ---------------- */
 .reveal-wrap{position:relative;height:250vh}
 @media(prefers-reduced-motion:reduce){.reveal-wrap{height:auto}}
 .reveal-stage{position:sticky;top:64px;height:94vh;min-height:520px;max-height:900px;overflow:hidden;display:flex;align-items:center}
+@media(max-width:899px){.reveal-stage{top:3vh}}
 @media(prefers-reduced-motion:reduce){.reveal-stage{position:relative;height:auto;min-height:0;max-height:none;padding:64px 0}}
 .reveal-ground{position:absolute;inset:0;background-size:cover;background-position:center 38%}
 .reveal-ground::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(21,18,12,.6) 0%,rgba(21,18,12,.38) 50%,rgba(21,18,12,.6) 100%)}
@@ -223,16 +223,31 @@ section.block{padding:56px 0}
 .ba-shell p{font-size:.9rem;color:var(--ink-2);max-width:56ch}
 
 /* ---------------- reviews ---------------- */
-.rev-strip{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:1fr}
-@media(min-width:760px){.rev-strip{grid-template-columns:repeat(3,1fr)}}
-.rev-card{background:var(--panel);padding:22px 20px;display:flex;flex-direction:column;gap:12px}
+.rev-strip{position:relative;display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:4px 4px 4px 4px}
+.rev-strip::-webkit-scrollbar{display:none}
+@media(max-width:759px){.rev-strip.peek-hint{animation:revPeekHint 1.4s ease .15s 1 both}}
+@keyframes revPeekHint{
+  0%{transform:translateX(0)}
+  28%{transform:translateX(-24px)}
+  52%{transform:translateX(-4px)}
+  74%{transform:translateX(-15px)}
+  100%{transform:translateX(0)}
+}
+@media(min-width:760px){.rev-strip{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);grid-template-columns:repeat(3,1fr);overflow-x:visible;scroll-snap-type:none;padding:0}}
+.rev-card{scroll-snap-align:start;flex:0 0 calc(100% - 60px);background:var(--panel);padding:28px 24px;display:flex;flex-direction:column;gap:15px;border:1px solid var(--line);border-radius:8px}
+@media(min-width:760px){.rev-card{flex:none;border:0;border-radius:0;padding:22px 20px;gap:12px}}
 .stars{color:var(--iron);font-size:.9rem;letter-spacing:.12em}
 .rev-card p.q{font-size:.94rem;color:var(--ink-2);flex:1}
 .rev-card .who{font-size:.82rem;font-weight:700;color:var(--ink);display:flex;flex-direction:column}
 .rev-card .who span{font-weight:500;color:var(--ink-3);font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
+.rev-nav{display:flex;justify-content:flex-end;gap:10px;margin-top:14px}
+@media(min-width:760px){.rev-nav{display:none}}
+.rev-arrow{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);background:var(--panel);color:var(--ink);font-size:1.3rem;line-height:1;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 2px rgba(21,18,12,.12);transition:transform .15s ease,box-shadow .15s ease}
+.rev-arrow:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(21,18,12,.18)}
 .rev-cta{margin-top:22px;display:flex;flex-wrap:wrap;align-items:center;gap:14px;justify-content:space-between}
-.rating-badge{display:flex;align-items:center;gap:10px}
+.rating-badge{display:flex;align-items:center;gap:12px}
 .rating-badge .n{font-family:"Big Shoulders Display";font-size:2.4rem;font-weight:800;line-height:1}
+.rating-badge .stars-lg{font-size:2.4rem;line-height:1;color:var(--iron);letter-spacing:.04em}
 .rating-badge .meta{font-size:.78rem;color:var(--ink-3)}
 
 /* ---------------- areas ---------------- */
@@ -292,6 +307,39 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
 /* ---------------- dev note strip (remove in production build) ---------------- */
 .devnote{background:var(--accent-tint);border-bottom:1px solid var(--line)}
 .devnote-in{max-width:1180px;margin:0 auto;padding:9px 20px;font-family:"IBM Plex Mono";font-size:.72rem;color:var(--accent-ink);letter-spacing:.02em}
+
+/* ---------------- mobile: small text +2px ---------------- */
+@media(max-width:899px){
+  .lbl{font-size:calc(.68rem + 2px)}
+  .btn-quote{font-size:calc(.82rem + 2px)}
+  .btn{font-size:calc(.9rem + 2px)}
+  .trustrow span{font-size:calc(.78rem + 2px)}
+  .block-hd p{font-size:calc(1rem + 2px)}
+  .svc-card p{font-size:calc(.9rem + 2px)}
+  .svc-more{font-size:calc(.78rem + 2px)}
+  .svc-card.stub .ph span{font-size:calc(.66rem + 2px)}
+  .proof-item p{font-size:calc(.9rem + 2px)}
+  .proof-item .src{font-size:calc(.76rem + 2px)}
+  .ba-shell .icon{font-size:calc(.7rem + 2px)}
+  .ba-shell p{font-size:calc(.9rem + 2px)}
+  .stars{font-size:calc(.9rem + 2px)}
+  .rev-card p.q{font-size:calc(.94rem + 2px)}
+  .rev-card .who{font-size:calc(.82rem + 2px)}
+  .rev-card .who span{font-size:calc(.74rem + 2px)}
+  .rating-badge .meta{font-size:calc(.78rem + 2px)}
+  .area-list a{font-size:calc(1rem + 2px)}
+  .area-note h4{font-size:calc(1rem + 2px)}
+  .area-note p{font-size:calc(.9rem + 2px)}
+  .p-step .num{font-size:calc(.72rem + 2px)}
+  .p-step p{font-size:calc(.87rem + 2px)}
+  details p{font-size:calc(.93rem + 2px)}
+  .cta-in p{font-size:calc(1rem + 2px)}
+  .foot-col h5{font-size:calc(.68rem + 2px)}
+  .foot-col a,.foot-col p{font-size:calc(.88rem + 2px)}
+  .foot-bottom{font-size:calc(.76rem + 2px)}
+  .mbar a{font-size:calc(.68rem + 2px)}
+  .devnote-in{font-size:calc(.72rem + 2px)}
+}
 </style>
 
 <div class="devnote"><div class="devnote-in">MOCKUP &mdash; homepage draft, built from the layout proposal. Real copy and photography from the current site; before/after slider and RV-pad/horse-property/septic services are placeholders pending new photos and your confirmation.</div></div>
@@ -345,7 +393,6 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
 
 <section class="answer">
   <div class="answer-in">
-    <span class="lbl">In short</span>
     <p><strong>American Works, LLC</strong> is a family-owned excavation and grading contractor based in Wittmann, Arizona, licensed under <strong>ROC&nbsp;#&nbsp;343361</strong>. We handle site preparation, GPS-guided grading, land and brush clearing, pool excavation, and material hauling for homeowners and contractors across the northwest Phoenix valley &mdash; Wittmann, Surprise, Peoria, Phoenix, Scottsdale, and nine more communities. Free estimates. Every job carries a one-year warranty.</p>
   </div>
 </section>
@@ -475,8 +522,12 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
       <div class="who">Joshua Aragon<span>Septic Install &amp; Driveway Regrade</span></div>
     </div>
   </div>
+  <div class="rev-nav">
+    <button class="rev-arrow" id="rev-prev" aria-label="Previous review">&#8249;</button>
+    <button class="rev-arrow" id="rev-next" aria-label="Next review">&#8250;</button>
+  </div>
   <div class="rev-cta">
-    <div class="rating-badge"><span class="n">5.0</span><span class="meta">Average rating<br>11 reviews on Google &amp; site</span></div>
+    <div class="rating-badge"><span class="n">5.0</span><span class="stars-lg">&#9733;&#9733;&#9733;&#9733;&#9733;</span><span class="meta">Average rating<br>11 reviews on Google &amp; site</span></div>
     <a class="btn btn-ghost" style="color:var(--ink);border-color:var(--line)" href="#">Read All 11 Reviews &rarr;</a>
   </div>
 </section>
@@ -639,5 +690,41 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
   window.addEventListener('resize', function(){
     if(window.innerWidth >= 900) close();
   });
+})();
+</script>
+
+<script>
+(function(){
+  var strip = document.querySelector('.rev-strip');
+  var prev = document.getElementById('rev-prev');
+  var next = document.getElementById('rev-next');
+  if(!strip) return;
+
+  function cardStep(){
+    var card = strip.querySelector('.rev-card');
+    if(!card) return 0;
+    var gap = parseFloat(getComputedStyle(strip).columnGap || getComputedStyle(strip).gap || '0') || 0;
+    return card.getBoundingClientRect().width + gap;
+  }
+  function go(dir){
+    strip.scrollBy({left: cardStep() * dir, behavior: 'smooth'});
+  }
+  if(prev) prev.addEventListener('click', function(){ go(-1); });
+  if(next) next.addEventListener('click', function(){ go(1); });
+
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    var fired = false;
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting && !fired){
+          fired = true;
+          strip.classList.add('peek-hint');
+          io.disconnect();
+        }
+      });
+    }, {threshold: 0.4});
+    io.observe(strip);
+  }
 })();
 </script>
