@@ -223,9 +223,13 @@ section.block{padding:56px 0}
 .proof-img img{width:100%;height:100%;object-fit:cover}
 .proof-list{padding:26px 22px;display:flex;flex-direction:column;gap:22px;background:var(--panel)}
 @media(max-width:759px){
-  .proof-wrap{position:relative;display:block;border:0;overflow:hidden}
-  .proof-img{position:absolute;inset:0;height:100%}
-  .proof-list{position:relative;z-index:1;background:rgba(29,25,18,.5);padding:32px 22px}
+  .proof-section{position:relative;overflow:hidden}
+  .proof-section .block-hd{position:relative;z-index:1}
+  .proof-section .block-hd .lbl{color:#FF8A54}
+  .proof-section .block-hd h2{color:#F8F4E8}
+  .proof-wrap{position:static;display:block;border:0}
+  .proof-img{position:absolute;inset:0;height:100%;z-index:0}
+  .proof-list{position:relative;z-index:1;background:rgba(21,18,12,.7);padding:32px 22px}
   .proof-item .mk{color:var(--accent)}
   .proof-item h4{color:#F8F4E8}
   .proof-item p{color:#E3DBC6}
@@ -521,7 +525,7 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
   </div>
 </section>
 
-<section class="block wrap">
+<section class="block wrap proof-section">
   <div class="block-hd">
     <span class="lbl stake">Why Crews Call Us Back</span>
     <h2>Proof, Not Adjectives</h2>
