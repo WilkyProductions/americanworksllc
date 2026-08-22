@@ -156,7 +156,7 @@ header.site{position:sticky;top:0;z-index:40;background:var(--panel);background:
 .reveal-wrap{position:relative;height:250vh}
 @media(prefers-reduced-motion:reduce){.reveal-wrap{height:auto}}
 .reveal-stage{position:sticky;top:64px;height:94vh;min-height:520px;max-height:900px;overflow:hidden;display:flex;align-items:center}
-@media(max-width:899px){.reveal-stage{top:3vh}}
+@media(max-width:899px){.reveal-stage{height:88svh;top:calc(32px + 6svh)}}
 @media(prefers-reduced-motion:reduce){.reveal-stage{position:relative;height:auto;min-height:0;max-height:none;padding:64px 0}}
 .reveal-ground{position:absolute;inset:0;background-size:cover;background-position:center 38%}
 .reveal-ground::before{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(21,18,12,.6) 0%,rgba(21,18,12,.38) 50%,rgba(21,18,12,.6) 100%)}
@@ -308,37 +308,39 @@ footer.site{background:var(--dusk);color:var(--grit-2);padding:44px 0 90px}
 .devnote{background:var(--accent-tint);border-bottom:1px solid var(--line)}
 .devnote-in{max-width:1180px;margin:0 auto;padding:9px 20px;font-family:"IBM Plex Mono";font-size:.72rem;color:var(--accent-ink);letter-spacing:.02em}
 
-/* ---------------- mobile: small text +2px ---------------- */
+/* ---------------- mobile: small text floor, matches .answer p ---------------- */
 @media(max-width:899px){
-  .lbl{font-size:calc(.68rem + 2px)}
-  .btn-quote{font-size:calc(.82rem + 2px)}
-  .btn{font-size:calc(.9rem + 2px)}
-  .trustrow span{font-size:calc(.78rem + 2px)}
-  .block-hd p{font-size:calc(1rem + 2px)}
-  .svc-card p{font-size:calc(.9rem + 2px)}
-  .svc-more{font-size:calc(.78rem + 2px)}
-  .svc-card.stub .ph span{font-size:calc(.66rem + 2px)}
-  .proof-item p{font-size:calc(.9rem + 2px)}
-  .proof-item .src{font-size:calc(.76rem + 2px)}
-  .ba-shell .icon{font-size:calc(.7rem + 2px)}
-  .ba-shell p{font-size:calc(.9rem + 2px)}
-  .stars{font-size:calc(.9rem + 2px)}
-  .rev-card p.q{font-size:calc(.94rem + 2px)}
-  .rev-card .who{font-size:calc(.82rem + 2px)}
-  .rev-card .who span{font-size:calc(.74rem + 2px)}
-  .rating-badge .meta{font-size:calc(.78rem + 2px)}
-  .area-list a{font-size:calc(1rem + 2px)}
-  .area-note h4{font-size:calc(1rem + 2px)}
-  .area-note p{font-size:calc(.9rem + 2px)}
-  .p-step .num{font-size:calc(.72rem + 2px)}
-  .p-step p{font-size:calc(.87rem + 2px)}
-  details p{font-size:calc(.93rem + 2px)}
-  .cta-in p{font-size:calc(1rem + 2px)}
-  .foot-col h5{font-size:calc(.68rem + 2px)}
-  .foot-col a,.foot-col p{font-size:calc(.88rem + 2px)}
-  .foot-bottom{font-size:calc(.76rem + 2px)}
-  .mbar a{font-size:calc(.68rem + 2px)}
-  .devnote-in{font-size:calc(.72rem + 2px)}
+  :root{--mobile-min-text:1.05rem}
+  .lbl,
+  .btn-quote,
+  .btn,
+  .trustrow span,
+  .block-hd p,
+  .svc-card p,
+  .svc-more,
+  .svc-card.stub .ph span,
+  .proof-item p,
+  .proof-item .src,
+  .ba-shell .icon,
+  .ba-shell p,
+  .stars,
+  .rev-card p.q,
+  .rev-card .who,
+  .rev-card .who span,
+  .rating-badge .meta,
+  .area-list a,
+  .area-note h4,
+  .area-note p,
+  .p-step .num,
+  .p-step p,
+  details p,
+  .cta-in p,
+  .foot-col h5,
+  .foot-col a,
+  .foot-col p,
+  .foot-bottom,
+  .mbar a,
+  .devnote-in{font-size:var(--mobile-min-text)}
 }
 </style>
 
