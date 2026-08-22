@@ -228,8 +228,9 @@ section.block{padding:56px 0}
   .proof-section .block-hd .lbl{color:#FF8A54}
   .proof-section .block-hd h2{color:#F8F4E8}
   .proof-wrap{position:static;display:block;border:0}
-  .proof-img{position:absolute;inset:0;height:100%;z-index:0}
-  .proof-list{position:relative;z-index:1;background:rgba(21,18,12,.7);padding:32px 22px}
+  .proof-img{position:absolute;top:51px;right:0;bottom:51px;left:0;height:auto;z-index:0}
+  .proof-img::after{content:"";position:absolute;inset:0;background:rgba(21,18,12,.6)}
+  .proof-list{position:relative;z-index:1;background:transparent;padding:32px 22px}
   .proof-item .mk{color:var(--accent)}
   .proof-item h4{color:#F8F4E8}
   .proof-item p{color:#E3DBC6}
