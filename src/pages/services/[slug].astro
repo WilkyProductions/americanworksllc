@@ -1,0 +1,159 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { services } from "../../data/services";
+
+export function getStaticPaths() {
+  return services.map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const otherServices = services.filter((s) => s.slug !== service.slug);
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "serviceType": service.name,
+  "name": service.name,
+  "description": service.description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "American Works, LLC",
+    "telephone": "+16233431123",
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Wittmann",
+      "addressRegion": "AZ",
+      "postalCode": "85361",
+      "addressCountry": "US",
+    },
+  },
+  "areaServed": [
+    "Wittmann, AZ", "Scottsdale, AZ", "Phoenix, AZ", "Surprise, AZ",
+    "Peoria, AZ", "El Mirage, AZ", "Goodyear, AZ", "Buckeye, AZ",
+    "New River, AZ", "Cave Creek, AZ", "Anthem, AZ", "Fountain Hills, AZ",
+  ],
+};
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": service.faqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.q,
+    "acceptedAnswer": { "@type": "Answer", "text": faq.a },
+  })),
+};
+---
+<BaseLayout
+  title={service.title}
+  description={service.description}
+  path={`/services/${service.slug}/`}
+  structuredData={[serviceSchema, faqSchema]}
+>
+<section class="svc-hero">
+  <img src={service.heroImage} alt={service.heroAlt}>
+  <div class="svc-hero-in">
+    <p class="breadcrumb"><a href="/">Home</a> &rsaquo; <a href="/#services">Services</a> &rsaquo; {service.name}</p>
+    <h1>{service.h1}</h1>
+  </div>
+</section>
+
+<section class="block wrap">
+  <p class="svc-intro">{service.intro}</p>
+</section>
+
+<section class="block wrap">
+  <div class="block-hd">
+    <span class="lbl stake">What's Included</span>
+    <h2>{service.name}</h2>
+  </div>
+  <ul class="svc-included">
+    {service.included.map((item) => <li>{item}</li>)}
+  </ul>
+</section>
+
+<section class="block wrap">
+  <div class="block-hd">
+    <span class="lbl stake">Why American Works</span>
+    <h2>Why Crews Call Us Back</h2>
+  </div>
+  <p class="svc-intro">{service.whyUs}</p>
+</section>
+
+<section class="block wrap">
+  <div class="svc-cost">
+    <h3>What Affects the Cost</h3>
+    <p>{service.costText}</p>
+  </div>
+</section>
+
+<section class="block wrap" id="faq">
+  <div class="block-hd">
+    <span class="lbl stake">Questions People Ask</span>
+    <h2>{service.name} FAQs</h2>
+  </div>
+  <div class="faq">
+    {service.faqs.map((faq) => (
+      <details>
+        <summary>{faq.q}</summary>
+        <p>{faq.a}</p>
+      </details>
+    ))}
+  </div>
+</section>
+
+<section class="block wrap">
+  <div class="block-hd">
+    <span class="lbl stake">Related</span>
+    <h2>Other Services</h2>
+  </div>
+  <div class="svc-related">
+    {otherServices.map((s) => (
+      <a href={`/services/${s.slug}/`}>{s.name}</a>
+    ))}
+  </div>
+</section>
+
+<section class="svc-cta">
+  <div class="wrap">
+    <h2>Ready to Start Your Project?</h2>
+    <p>Free estimates on {service.name.toLowerCase()} in Wittmann, AZ and the northwest Valley.</p>
+    <div class="hero-cta" style="justify-content:center;margin-top:18px">
+      <a class="btn btn-primary" href="tel:+16233431123">Call (623) 343-1123</a>
+      <a class="btn btn-ghost" href="/#estimate" style="color:#F1EADA;border-color:rgba(241,234,218,.55)">Get a Free Estimate</a>
+    </div>
+  </div>
+</section>
+</BaseLayout>
+
+<style>
+.svc-hero{position:relative;min-height:44vh;display:flex;align-items:flex-end;overflow:hidden}
+.svc-hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.svc-hero::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(21,18,12,.86) 0%,rgba(21,18,12,.4) 65%,rgba(21,18,12,.12) 100%)}
+.svc-hero-in{position:relative;z-index:1;width:100%;max-width:1180px;margin:0 auto;padding:0 20px 32px;color:#F1EADA}
+.breadcrumb{font-family:"IBM Plex Mono",monospace;font-size:.72rem;letter-spacing:.04em;color:#D4CAB0;margin-bottom:10px}
+.breadcrumb a{text-decoration:underline;text-underline-offset:2px}
+.svc-hero h1{font-size:clamp(2rem,5.5vw,3.2rem);color:#F8F4E8;text-wrap:balance}
+
+.svc-intro{font-size:1.05rem;line-height:1.5;color:var(--ink-2);max-width:68ch}
+
+.svc-included{display:grid;gap:12px;grid-template-columns:1fr;list-style:none;margin:0;padding:0}
+@media(min-width:640px){.svc-included{grid-template-columns:1fr 1fr}}
+.svc-included li{display:flex;gap:10px;align-items:flex-start;font-size:.95rem;color:var(--ink-2)}
+.svc-included li::before{content:"";width:8px;height:8px;margin-top:6px;border:1.5px solid var(--accent);flex:none}
+
+.svc-cost{background:var(--accent-tint);border:1px solid var(--line);border-radius:8px;padding:26px 26px}
+.svc-cost h3{font-family:"Public Sans";text-transform:none;font-size:1.05rem;font-weight:700;color:var(--ink)}
+.svc-cost p{margin-top:8px;color:var(--ink-2);font-size:.95rem;line-height:1.5}
+
+.svc-related{display:flex;flex-wrap:wrap;gap:10px}
+.svc-related a{font-size:.85rem;font-weight:700;text-transform:uppercase;letter-spacing:.03em;color:var(--accent-ink);border:1.5px solid var(--accent-ink);border-radius:999px;padding:8px 16px;transition:transform .15s ease,background-color .15s ease,color .15s ease}
+.svc-related a:hover{background:var(--accent-ink);color:#FFFFFF;transform:translateY(-2px)}
+
+.svc-cta{background:var(--dusk);color:#F1EADA;padding:52px 0;text-align:center}
+.svc-cta h2{color:#F8F4E8}
+.svc-cta p{color:#D4CAB0;margin-top:10px;font-size:1rem}
+</style>
