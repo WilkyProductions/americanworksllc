@@ -1,8 +1,13 @@
-import { grading, excavation, landClearing, poolExcavation, materialHauling } from "./serviceImages";
+import { grading, excavation, landClearing, poolExcavation, materialHauling, americanWorksLlc1, yellowBuldozer } from "./serviceImages";
 
 export interface ServiceFaq {
   q: string;
   a: string;
+}
+
+export interface GalleryPhoto {
+  src: string;
+  alt: string;
 }
 
 export interface ServiceData {
@@ -13,6 +18,7 @@ export interface ServiceData {
   description: string;
   heroImage: string;
   heroAlt: string;
+  gallery: GalleryPhoto[];
   intro: string;
   included: string[];
   whyUs: string;
@@ -29,6 +35,10 @@ export const services: ServiceData[] = [
     description: "Precision land grading and site leveling in Wittmann, AZ and the northwest Valley. GPS-guided, clean finish, backed by a 1-year warranty. Free estimates — call (623) 343-1123.",
     heroImage: grading,
     heroAlt: "Skid steer with auger performing site grading beside a metal building",
+    gallery: [
+      { src: grading, alt: "Skid steer with auger performing site grading beside a metal building" },
+      { src: americanWorksLlc1, alt: "Freshly graded dirt lot with tire tracks and orchard treeline" },
+    ],
     intro: "American Works, LLC provides GPS-guided grading and land leveling for homeowners and contractors in Wittmann, AZ and the surrounding northwest Valley. We handle landscape grading, site preparation, lot leveling, and drainage correction, and every job is backed by a 1-year warranty on the finished dirt work.",
     included: [
       "Landscape and yard grading",
@@ -55,6 +65,10 @@ export const services: ServiceData[] = [
     description: "Licensed excavation contractor in Wittmann, AZ. Septic and sewer digs, footing excavation, and site prep. GPS-guided, 1-year warranty. Call (623) 343-1123 for a free estimate.",
     heroImage: excavation,
     heroAlt: "Kubota excavator and two crew members working in a trench",
+    gallery: [
+      { src: excavation, alt: "Kubota excavator and two crew members working in a trench" },
+      { src: yellowBuldozer, alt: "Yellow mini excavator on a fenced dirt lot mid-grade" },
+    ],
     intro: "American Works, LLC is a licensed excavation company (ROC # 343361) serving Wittmann, AZ and the northwest Valley. We handle septic and sewer excavation, footing digs, and full site preparation for residential and light commercial construction, with every job backed by a 1-year warranty.",
     included: [
       "Septic tank and leach field excavation",
@@ -81,6 +95,9 @@ export const services: ServiceData[] = [
     description: "Land and brush clearing in Wittmann, AZ. Stump removal, brush clearance, and vegetation management for construction, agriculture, or fire prevention. Call (623) 343-1123.",
     heroImage: landClearing,
     heroAlt: "Finished graded pad cleared of brush in front of a metal shop building",
+    gallery: [
+      { src: landClearing, alt: "Finished graded pad cleared of brush in front of a metal shop building" },
+    ],
     intro: "American Works, LLC clears land for construction, agricultural use, and fire prevention throughout Wittmann, AZ and the northwest Valley. We handle stump removal, brush clearance, and vegetation management, and leave the site clean and ready for what's next.",
     included: [
       "Stump grinding and removal",
@@ -107,6 +124,9 @@ export const services: ServiceData[] = [
     description: "Precision pool excavation in Wittmann, AZ, tailored to Arizona's clay-rich soils. Residential and commercial. GPS-guided layout, free estimates. Call (623) 343-1123.",
     heroImage: poolExcavation,
     heroAlt: "Excavated pool shell with rebar in place, ready for construction",
+    gallery: [
+      { src: poolExcavation, alt: "Excavated pool shell with rebar in place, ready for construction" },
+    ],
     intro: "American Works, LLC provides pool excavation for residential and commercial projects in Wittmann, AZ and the northwest Valley. We dig to your pool design with GPS-guided precision, accounting for Arizona's clay-rich soils so the shell is properly shaped and supported before construction begins.",
     included: [
       "Site assessment and soil evaluation",
@@ -133,6 +153,9 @@ export const services: ServiceData[] = [
     description: "Reliable dirt, rock, and debris hauling in Wittmann, AZ and the northwest Valley. Sized for projects large and small. Call (623) 343-1123 for a free estimate.",
     heroImage: materialHauling,
     heroAlt: "Truck bed loaded with excavated rock and dirt for material hauling",
+    gallery: [
+      { src: materialHauling, alt: "Truck bed loaded with excavated rock and dirt for material hauling" },
+    ],
     intro: "American Works, LLC moves dirt, rock, gravel, and construction debris for projects throughout Wittmann, AZ and the northwest Valley. We size our equipment to the job, from a single yard cleanup to large-scale commercial hauls, and handle disposal in line with Arizona's material regulations.",
     included: [
       "Dirt and soil removal or delivery",
