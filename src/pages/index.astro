@@ -1,4 +1,5 @@
 ---
+export const prerender = true;
 import BaseLayout from "../layouts/BaseLayout.astro";
 
 const faqSchema = {
@@ -88,32 +89,7 @@ const faqSchema = {
       <h2>We Don't Leave Until the Ground Is Right</h2>
       <p>GPS-guided grading, a site left clean every time, and a full 1-year warranty behind every job we finish.</p>
     </div>
-    <svg class="reveal-machine" viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
-  <ellipse cx="150" cy="152" rx="132" ry="7" fill="rgba(21,18,12,.25)"/>
-  <polygon points="6,128 22,100 34,100 34,128" fill="#F15927"/>
-  <polygon points="6,128 16,112 30,112 28,128" fill="#C7440E"/>
-  <rect x="30" y="118" width="228" height="32" rx="16" fill="#17140D"/>
-  <circle cx="46" cy="134" r="15" fill="#231F16"/>
-  <circle cx="242" cy="134" r="15" fill="#231F16"/>
-  <circle cx="76" cy="134" r="12" fill="#2E2818"/>
-  <circle cx="110" cy="134" r="12" fill="#2E2818"/>
-  <circle cx="144" cy="134" r="12" fill="#2E2818"/>
-  <circle cx="178" cy="134" r="12" fill="#2E2818"/>
-  <circle cx="212" cy="134" r="12" fill="#2E2818"/>
-  <rect x="55" y="92" width="195" height="32" rx="4" fill="#F15927"/>
-  <rect x="197" y="70" width="55" height="26" rx="3" fill="#D9491C"/>
-  <polygon points="225,112 199,116 199,66 225,62" fill="#17140D"/>
-  <polygon points="225,112 251,116 251,62 225,58" fill="#17140D"/>
-  <polygon points="225,112 199,116 105,50 128,46" fill="#17140D"/>
-  <polygon points="225,58 251,62 132,44 108,48" fill="#17140D"/>
-  <polygon points="128,46 108,48 70,90 96,96" fill="#17140D"/>
-  <polygon points="132,44 96,96 70,104 105,50" fill="#17140D"/>
-  <rect x="123" y="53" width="82" height="42" rx="5" fill="#17140D"/>
-  <rect x="130" y="59" width="68" height="28" rx="3" fill="#F1EADA"/>
-  <rect x="70" y="90" width="10" height="24" rx="2" fill="#948968" transform="rotate(18 75 102)"/>
-  <polygon points="14,116 66,100 70,132 10,140" fill="#17140D"/>
-  <rect x="16" y="118" width="52" height="6" fill="#F15927"/>
-</svg>
+    <img class="reveal-machine" src="/images/skidsteer.webp" alt="" aria-hidden="true" width="900" height="506" loading="lazy" decoding="async">
   </div>
 </section>
 
@@ -314,6 +290,7 @@ const faqSchema = {
       <h2>Schedule Your Service with Ease</h2>
       <p>Ready to start your project? Fill out the form to get a free estimate on excavation, grading, land clearing, or hauling &mdash; fast, clean, and professional.</p>
       <form class="cform">
+        <input type="text" name="company" class="cfield-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
         <label class="cfield"><span class="cfield-cap">First Name</span><input type="text" name="first_name" autocomplete="given-name" required></label>
         <label class="cfield"><span class="cfield-cap">Last Name</span><input type="text" name="last_name" autocomplete="family-name" required></label>
         <label class="cfield"><span class="cfield-cap">Email</span><input type="email" name="email" autocomplete="email" required></label>
