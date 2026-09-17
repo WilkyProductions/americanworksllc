@@ -204,7 +204,7 @@ header.site{position:sticky;top:0;z-index:40;background:var(--panel);background:
 .answer p strong{color:#FFCD11;font-weight:700}
 
 /* ---------------- scroll reveal: skid steer clears the ground ---------------- */
-.reveal-wrap{position:relative;height:250vh}
+.reveal-wrap{position:relative;height:350vh}
 @media(prefers-reduced-motion:reduce){.reveal-wrap{height:auto}}
 .reveal-stage{position:sticky;top:64px;height:94vh;min-height:520px;max-height:900px;overflow:hidden;display:flex;align-items:center}
 @media(max-width:899px){.reveal-stage{height:88svh;top:calc(32px + 6svh)}}
@@ -225,10 +225,11 @@ header.site{position:sticky;top:0;z-index:40;background:var(--panel);background:
 .reveal-copy{position:relative;z-index:3;max-width:1180px;margin:0 auto;padding:0 20px;width:100%}
 .reveal-copy h2{color:#F8F8F8;font-size:clamp(1.9rem,5.2vw,3.1rem);max-width:14ch}
 .reveal-copy p{margin-top:14px;color:#D6D6D6;font-size:1.04rem;line-height:1.4;max-width:46ch}
-.reveal-machine{position:absolute;bottom:6%;width:360px;height:auto;z-index:4;pointer-events:none;filter:drop-shadow(0 8px 10px rgba(18,18,18,.35));
-  left:calc((1 - var(--progress,1)) * 100% - 40px);will-change:left}
-@media(prefers-reduced-motion:reduce){.reveal-machine{display:none}}
-@media(min-width:640px){.reveal-machine{width:440px}}
+.reveal-machine-wrap{position:absolute;bottom:6%;--machine-w:270px;--bucket-c:0.1333;width:var(--machine-w);z-index:4;pointer-events:none;
+  left:calc((1 - var(--progress-machine,1)) * 100% - var(--machine-w) * var(--bucket-c));will-change:left}
+.reveal-machine{position:relative;z-index:2;display:block;width:100%;height:auto;filter:drop-shadow(0 8px 10px rgba(18,18,18,.35))}
+@media(prefers-reduced-motion:reduce){.reveal-machine-wrap{display:none}}
+@media(min-width:640px){.reveal-machine-wrap{--machine-w:440px}}
 
 /* ---------------- section shell ---------------- */
 section.block{padding:56px 0}
@@ -457,8 +458,6 @@ footer.site::before{content:"";position:absolute;inset:0;opacity:.5;background-i
 .cookie-banner p{font-size:.92rem;line-height:1.45;color:var(--ink-2)}
 .cookie-banner p a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
 .cookie-actions{display:flex;align-items:center;gap:24px;margin-top:16px}
-.cookie-decline{font-family:"Public Sans";font-weight:700;font-style:italic;font-size:.92rem;color:var(--ink);text-transform:uppercase;letter-spacing:.02em;background:none;border:0;padding:0;cursor:pointer}
-.cookie-decline:hover{text-decoration:underline}
 .cookie-accept{font-family:"Public Sans";font-weight:700;font-style:italic;font-size:.92rem;text-transform:uppercase;letter-spacing:.02em;background:#121212;color:#F0F0F0;border:0;border-radius:999px;padding:12px 30px;cursor:pointer;transition:transform .15s ease,background-color .15s ease}
 .cookie-accept:hover{transform:translateY(-2px);background:#000}
 
@@ -627,11 +626,10 @@ footer.site::before{content:"";position:absolute;inset:0;opacity:.5;background-i
   <button type="button" class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next photo">&#8250;</button>
 </div>
 
-<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie consent">
-  <p>We use cookies for essential site features and, once you agree, to understand site traffic. See our <a href="#">Cookie Policy</a>.</p>
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice">
+  <p>This site uses cookies for essential features and to understand site traffic. See our <a href="#">Cookie Policy</a>.</p>
   <div class="cookie-actions">
-    <button type="button" class="cookie-decline" id="cookie-decline">Decline</button>
-    <button type="button" class="cookie-accept" id="cookie-accept">Accept</button>
+    <button type="button" class="cookie-accept" id="cookie-accept">Got It</button>
   </div>
 </div>
 
@@ -641,14 +639,26 @@ footer.site::before{content:"";position:absolute;inset:0;opacity:.5;background-i
   var stage = document.querySelector('.reveal-stage');
   if(!wrap || !stage) return;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if(reduce){ wrap.style.setProperty('--progress','1'); return; }
+  if(reduce){ wrap.style.setProperty('--progress','1'); wrap.style.setProperty('--progress-machine','1'); return; }
+  var machineWrapEl = document.querySelector('.reveal-machine-wrap');
+  var BUCKET_C = 0.1333;
   var ticking = false;
   function update(){
     var rect = wrap.getBoundingClientRect();
     var total = wrap.offsetHeight - stage.offsetHeight;
-    var p = total > 0 ? (-rect.top) / total : 1;
-    p = Math.min(1, Math.max(0, p));
-    wrap.style.setProperty('--progress', p.toFixed(4));
+    var raw = total > 0 ? (-rect.top) / total : 1;
+    raw = Math.max(0, raw);
+
+    var containerW = stage.offsetWidth || 1;
+    var machineW = machineWrapEl ? machineWrapEl.offsetWidth : 0;
+    var tailRatio = (machineW - machineW * BUCKET_C) / containerW;
+    var REVEAL_FRACTION = 1 / (1 + tailRatio * 1.08);
+
+    var t = raw / REVEAL_FRACTION;
+    var pReveal = Math.min(1, t);
+    var pMachine = t;
+    wrap.style.setProperty('--progress', pReveal.toFixed(4));
+    wrap.style.setProperty('--progress-machine', pMachine.toFixed(4));
     ticking = false;
   }
   function onScroll(){
@@ -820,20 +830,31 @@ footer.site::before{content:"";position:absolute;inset:0;opacity:.5;background-i
 
 <script>
 (function(){
-  var KEY = 'aw_cookie_consent';
+  var GA_ID = 'G-SCQDGKLN6E';
+  window.dataLayer = window.dataLayer || [];
+  window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
+  gtag('js', new Date());
+  gtag('config', GA_ID);
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+  document.head.appendChild(s);
+})();
+</script>
+
+<script>
+(function(){
+  var KEY = 'aw_cookie_notice_seen';
   var banner = document.getElementById('cookie-banner');
   if(!banner) return;
   var stored = null;
   try { stored = localStorage.getItem(KEY); } catch(e) {}
   if(stored){ banner.remove(); return; }
-  function dismiss(value){
-    try { localStorage.setItem(KEY, value); } catch(e) {}
-    banner.remove();
-  }
   var acceptBtn = document.getElementById('cookie-accept');
-  var declineBtn = document.getElementById('cookie-decline');
-  if(acceptBtn) acceptBtn.addEventListener('click', function(){ dismiss('accepted'); });
-  if(declineBtn) declineBtn.addEventListener('click', function(){ dismiss('declined'); });
+  if(acceptBtn) acceptBtn.addEventListener('click', function(){
+    try { localStorage.setItem(KEY, '1'); } catch(e) {}
+    banner.remove();
+  });
 })();
 </script>
 
