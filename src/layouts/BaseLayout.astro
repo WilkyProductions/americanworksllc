@@ -458,6 +458,8 @@ footer.site::before{content:"";position:absolute;inset:0;opacity:.5;background-i
 .cookie-banner p{font-size:.92rem;line-height:1.45;color:var(--ink-2)}
 .cookie-banner p a{color:var(--ink);text-decoration:underline;text-underline-offset:2px}
 .cookie-actions{display:flex;align-items:center;gap:24px;margin-top:16px}
+.cookie-decline{font-family:"Public Sans";font-weight:700;font-style:italic;font-size:.92rem;color:var(--ink);text-transform:uppercase;letter-spacing:.02em;background:none;border:0;padding:0;cursor:pointer}
+.cookie-decline:hover{text-decoration:underline}
 .cookie-accept{font-family:"Public Sans";font-weight:700;font-style:italic;font-size:.92rem;text-transform:uppercase;letter-spacing:.02em;background:#121212;color:#F0F0F0;border:0;border-radius:999px;padding:12px 30px;cursor:pointer;transition:transform .15s ease,background-color .15s ease}
 .cookie-accept:hover{transform:translateY(-2px);background:#000}
 
@@ -626,10 +628,11 @@ footer.site::before{content:"";position:absolute;inset:0;opacity:.5;background-i
   <button type="button" class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next photo">&#8250;</button>
 </div>
 
-<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie notice">
-  <p>This site uses cookies for essential features and to understand site traffic. See our <a href="#">Cookie Policy</a>.</p>
+<div class="cookie-banner" id="cookie-banner" role="region" aria-label="Cookie consent">
+  <p>We use cookies for essential site features and, once you agree, to understand site traffic. See our <a href="#">Cookie Policy</a>.</p>
   <div class="cookie-actions">
-    <button type="button" class="cookie-accept" id="cookie-accept">Got It</button>
+    <button type="button" class="cookie-decline" id="cookie-decline">Decline</button>
+    <button type="button" class="cookie-accept" id="cookie-accept">Accept</button>
   </div>
 </div>
 
@@ -830,31 +833,36 @@ footer.site::before{content:"";position:absolute;inset:0;opacity:.5;background-i
 
 <script>
 (function(){
+  var KEY = 'aw_cookie_consent';
   var GA_ID = 'G-SCQDGKLN6E';
-  window.dataLayer = window.dataLayer || [];
-  window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
-  gtag('js', new Date());
-  gtag('config', GA_ID);
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
-  document.head.appendChild(s);
-})();
-</script>
-
-<script>
-(function(){
-  var KEY = 'aw_cookie_notice_seen';
   var banner = document.getElementById('cookie-banner');
-  if(!banner) return;
+
+  function loadAnalytics(){
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = window.gtag || function(){ dataLayer.push(arguments); };
+    gtag('js', new Date());
+    gtag('config', GA_ID);
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+    document.head.appendChild(s);
+  }
+
   var stored = null;
   try { stored = localStorage.getItem(KEY); } catch(e) {}
+  if(stored === 'accepted'){ loadAnalytics(); }
+
+  if(!banner) return;
   if(stored){ banner.remove(); return; }
-  var acceptBtn = document.getElementById('cookie-accept');
-  if(acceptBtn) acceptBtn.addEventListener('click', function(){
-    try { localStorage.setItem(KEY, '1'); } catch(e) {}
+  function dismiss(value){
+    try { localStorage.setItem(KEY, value); } catch(e) {}
+    if(value === 'accepted'){ loadAnalytics(); }
     banner.remove();
-  });
+  }
+  var acceptBtn = document.getElementById('cookie-accept');
+  var declineBtn = document.getElementById('cookie-decline');
+  if(acceptBtn) acceptBtn.addEventListener('click', function(){ dismiss('accepted'); });
+  if(declineBtn) declineBtn.addEventListener('click', function(){ dismiss('declined'); });
 })();
 </script>
 
